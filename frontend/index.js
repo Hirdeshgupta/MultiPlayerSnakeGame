@@ -1,6 +1,9 @@
 const BG_COLOUR = '#231f20';
 const SNAKE_COLOUR = '#c2c2c2';
 const FOOD_COLOUR = '#e66916';
+const socket = io("http://localhost:3000");
+socket.on("init", handleInit);
+socket.on("gameStater", handleGameState);
 const gameScreen = document.getElementById("gameScreen");
 let canvas, ctx;
 const gameState = {
@@ -55,6 +58,15 @@ function playerPaint(player, size) {
 
 function keydown(e) {
     console.log(e.keyCode);
+}
+
+function handleInit(data) {
+    console.log(data);
+}
+
+function handleGameState(gameState) {
+    gameState = JSON.parse(gameState);
+    requestAnimationFrame(() => gamePaint(gameState));
 }
 init();
 gamePaint(gameState);

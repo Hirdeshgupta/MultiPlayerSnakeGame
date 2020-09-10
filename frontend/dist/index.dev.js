@@ -3,6 +3,9 @@
 var BG_COLOUR = '#231f20';
 var SNAKE_COLOUR = '#c2c2c2';
 var FOOD_COLOUR = '#e66916';
+var socket = io("http://localhost:3000");
+socket.on("init", handleInit);
+socket.on("gameStater", handleGameState);
 var gameScreen = document.getElementById("gameScreen");
 var canvas, ctx;
 var gameState = {
@@ -63,6 +66,17 @@ function playerPaint(player, size) {
 
 function keydown(e) {
   console.log(e.keyCode);
+}
+
+function handleInit(data) {
+  console.log(data);
+}
+
+function handleGameState(gameState) {
+  gameState = JSON.parse(gameState);
+  requestAnimationFrame(function () {
+    return gamePaint(gameState);
+  });
 }
 
 init();
