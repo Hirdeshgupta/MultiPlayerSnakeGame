@@ -5,36 +5,9 @@ var SNAKE_COLOUR = '#c2c2c2';
 var FOOD_COLOUR = '#e66916';
 var socket = io("http://localhost:3000");
 socket.on("init", handleInit);
-socket.on("gameStater", handleGameState);
+socket.on("gameState", handleGameState);
 var gameScreen = document.getElementById("gameScreen");
 var canvas, ctx;
-var gameState = {
-  player: {
-    position: {
-      x: 3,
-      y: 10
-    },
-    vel: {
-      x: 1,
-      y: 0
-    },
-    snake: [{
-      x: 1,
-      y: 10
-    }, {
-      x: 2,
-      y: 10
-    }, {
-      x: 3,
-      y: 10
-    }]
-  },
-  food: {
-    x: 7,
-    y: 7
-  },
-  gridSize: 20
-};
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -65,7 +38,7 @@ function playerPaint(player, size) {
 }
 
 function keydown(e) {
-  console.log(e.keyCode);
+  socket.emit("keydown", e.keyCode);
 }
 
 function handleInit(data) {
@@ -80,4 +53,3 @@ function handleGameState(gameState) {
 }
 
 init();
-gamePaint(gameState);

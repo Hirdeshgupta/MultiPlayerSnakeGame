@@ -3,31 +3,10 @@ const SNAKE_COLOUR = '#c2c2c2';
 const FOOD_COLOUR = '#e66916';
 const socket = io("http://localhost:3000");
 socket.on("init", handleInit);
-socket.on("gameStater", handleGameState);
+socket.on("gameState", handleGameState);
 const gameScreen = document.getElementById("gameScreen");
 let canvas, ctx;
-const gameState = {
-    player: {
-        position: {
-            x: 3,
-            y: 10
-        },
-        vel: {
-            x: 1,
-            y: 0
-        },
-        snake: [
-            { x: 1, y: 10 },
-            { x: 2, y: 10 },
-            { x: 3, y: 10 },
-        ]
-    },
-    food: {
-        x: 7,
-        y: 7
-    },
-    gridSize: 20
-}
+
 
 function init() {
     canvas = document.getElementById("canvas");
@@ -57,7 +36,7 @@ function playerPaint(player, size) {
 }
 
 function keydown(e) {
-    console.log(e.keyCode);
+    socket.emit("keydown", e.keyCode);
 }
 
 function handleInit(data) {
@@ -69,4 +48,3 @@ function handleGameState(gameState) {
     requestAnimationFrame(() => gamePaint(gameState));
 }
 init();
-gamePaint(gameState);
